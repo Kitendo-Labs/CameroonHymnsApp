@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "364235672730",
+    "project_id": "hymns-89b76",
+    "storage_bucket": "hymns-89b76.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364235672730:android:7350ff6dcbd8e7d3ace323",
+        "android_client_info": {
+          "package_name": "net.kitendo.cameroon_hymn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYm_UcWois_YjnQnCAHuHgeKXELRf3RRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
