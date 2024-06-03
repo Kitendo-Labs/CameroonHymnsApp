@@ -1,4 +1,3 @@
-import 'package:cameroon_hymn/src/home/view/widgets/app_update.dart';
 import 'package:cameroon_hymn/src/theme/app_theme.dart';
 import 'package:cameroon_hymn/src/favorites/view/favorites_page.dart';
 import 'package:flutter/material.dart';

@@ -23,6 +23,7 @@ class Header extends ConsumerStatefulWidget {
 
 class _HeaderState extends ConsumerState<Header> {
   late FocusNode searchNode;
+  bool canPop = false;
   @override
   void initState() {
     searchNode = FocusNode();
@@ -33,16 +34,17 @@ class _HeaderState extends ConsumerState<Header> {
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).appColors;
     final shouldShowSearch = ref.watch(showSearchProvider);
-    return WillPopScope(
-      onWillPop: () {
+    return PopScope(
+      canPop: canPop,
+      onPopInvoked: (didPop) {
         if (ref.watch(searchedTermProvider).isNotEmpty ||
             ref.watch(showSearchProvider)) {
           ref.watch(searchedTermProvider.notifier).update((state) => '');
           ref.watch(showSearchProvider.notifier).update((state) => false);
-          return Future.value(false);
-        } else {
-          return Future.value(true);
         }
+        setState(() {
+          canPop = true;
+        });
       },
       child: Material(
         color: Colors.transparent,
