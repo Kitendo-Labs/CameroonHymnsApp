@@ -19,6 +19,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).appColors;
+    bool hasLogin = false;
 
     return Scaffold(
       backgroundColor: appColors.primary,
@@ -54,50 +55,87 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Row(
+                      child: hasLogin
+                          ? Row(
                               children: [
-                                Icon(
-                                  Icons.account_circle_outlined,
-                                  size: 52,
-                                  color: appColors.onPrimary.withOpacity(0.8),
-                                ),
-                                const SizedBox(width: 12),
-                                const Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                Expanded(
+                                  child: Row(
                                     children: [
-                                      Text(
-                                        "Mangi Elijah",
-                                        overflow: TextOverflow.ellipsis,
+                                      Icon(
+                                        Icons.account_circle_outlined,
+                                        size: 52,
+                                        color: appColors.onPrimary
+                                            .withOpacity(0.8),
                                       ),
-                                      Text(
-                                        "mangielijah@gmail.com",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
+                                      const SizedBox(width: 12),
+                                      const Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Mangi Elijah",
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              "mangielijah@gmail.com",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
+                                      )
                                     ],
                                   ),
-                                )
+                                ),
+                                const SizedBox(width: 12),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.logout_rounded,
+                                    size: 28,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person_off_outlined,
+                                        size: 52,
+                                        color: appColors.onPrimary
+                                            .withOpacity(0.8),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      const Expanded(
+                                        child: Text(
+                                          "Not Logged in",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.login_rounded,
+                                    size: 28,
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.logout_rounded,
-                              size: 28,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                     const ProfileDivider(),
                     Padding(
@@ -129,7 +167,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             ],
                           ),
                           const ProfileDivider(),
-                          const PurchaseSection(hasPurchased: true),
+                          hasLogin
+                              ? const PurchaseSection(hasPurchased: true)
+                              : Align(
+                                  alignment: Alignment.center,
+                                  child: OutlinedButton(
+                                      title: "Login", onPressed: () {}),
+                                ),
                         ],
                       ),
                     ),
@@ -184,34 +228,7 @@ class PurchaseSection extends StatelessWidget {
                     style: TextStyle(color: appColors.accentSecondary),
                   ),
                 )
-              : TextButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    side: WidgetStateProperty.all(
-                      BorderSide(
-                        color: appColors.accentSecondary,
-                        width: 2,
-                      ),
-                    ),
-                    shape: WidgetStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(60),
-                      ),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 62,
-                    ),
-                    child: Text(
-                      "Purchase",
-                      style: TextStyle(
-                        color: appColors.onPrimary,
-                      ),
-                    ),
-                  ),
-                ),
+              : OutlinedButton(title: "Purchase", onPressed: () {}),
           Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
@@ -222,6 +239,49 @@ class PurchaseSection extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class OutlinedButton extends StatelessWidget {
+  const OutlinedButton({
+    super.key,
+    required this.title,
+    this.onPressed,
+  });
+  final String title;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = Theme.of(context).appColors;
+    return TextButton(
+      onPressed: onPressed,
+      style: ButtonStyle(
+        side: WidgetStateProperty.all(
+          BorderSide(
+            color: appColors.accentSecondary,
+            width: 2,
+          ),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(60),
+          ),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 62,
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+            color: appColors.onPrimary,
+          ),
+        ),
       ),
     );
   }
