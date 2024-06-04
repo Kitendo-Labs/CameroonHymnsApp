@@ -7,6 +7,7 @@ import 'package:cameroon_hymn/src/theme/app_theme.dart';
 import 'package:cameroon_hymn/src/utils/app_color_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -155,12 +156,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               ProfileListItem(
                                 title: "Privacy policy",
                                 icon: Icons.policy_outlined,
-                                onTap: () {},
+                                onTap: () {
+                                  final url = Uri.parse(
+                                      "https://cameroonhymns.kitendo.net/privacy.html#");
+                                  launchUrl(
+                                    url,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
                               ),
                               ProfileListItem(
                                 title: "Terms and conditions",
                                 icon: Icons.gavel_rounded,
-                                onTap: () {},
+                                onTap: () {
+                                  final url = Uri.parse(
+                                      "https://cameroonhymns.kitendo.net/terms.html#");
+                                  launchUrl(
+                                    url,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
                               ),
                               const SizedBox(height: 18),
                               const ProfileSectionTitle(title: "Others"),
