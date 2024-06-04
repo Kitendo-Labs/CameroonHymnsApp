@@ -107,7 +107,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 50.0),
+                      padding: const EdgeInsets.only(right: 46.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -198,6 +198,8 @@ class ProfileListItem extends StatelessWidget {
     final appColors = Theme.of(context).appColors;
     return ListTile(
       onTap: onTap,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      splashColor: appColors.accent,
       leading: Container(
         height: 28,
         width: 28,
