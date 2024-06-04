@@ -1,3 +1,4 @@
+import 'package:cameroon_hymn/src/profile/views/profile_page.dart';
 import 'package:cameroon_hymn/src/theme/app_theme.dart';
 import 'package:cameroon_hymn/src/favorites/view/favorites_page.dart';
 import 'package:flutter/material.dart';
@@ -103,24 +104,32 @@ class HomeFooter extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      final snackBar = SnackBar(
-                        margin: const EdgeInsets.only(
-                            bottom: 10, left: 10, right: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        backgroundColor: appColor.background,
-                        behavior: SnackBarBehavior.floating,
-                        content: Text(
-                          'Profile management is coming soon, excited about this',
-                          style: TextStyle(color: appColor.primary),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const ProfilePage();
+                          },
                         ),
                       );
+                      // ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      // final snackBar = SnackBar(
+                      //   margin: const EdgeInsets.only(
+                      //       bottom: 10, left: 10, right: 10),
+                      //   shape: RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(12),
+                      //   ),
+                      //   backgroundColor: appColor.background,
+                      //   behavior: SnackBarBehavior.floating,
+                      //   content: Text(
+                      //     'Profile management is coming soon, excited about this',
+                      //     style: TextStyle(color: appColor.primary),
+                      //   ),
+                      // );
 
-                      // Find the ScaffoldMessenger in the widget tree
-                      // and use it to show a SnackBar.
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      // // Find the ScaffoldMessenger in the widget tree
+                      // // and use it to show a SnackBar.
+                      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: const CircleBorder(),
