@@ -1,6 +1,5 @@
 import 'package:cameroon_hymn/src/theme/app_theme.dart';
 import 'package:cameroon_hymn/src/utils/app_color_extention.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -100,35 +99,79 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(28),
-                      child: Divider(
-                        color: appColors.onPrimary.withOpacity(0.2),
-                      ),
-                    ),
+                    const ProfileDivider(),
                     Padding(
                       padding: const EdgeInsets.only(right: 46.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const ProfileSectionTitle(title: "About us"),
-                          ProfileListItem(
-                            title: "Privacy policy",
-                            icon: Icons.policy_outlined,
-                            onTap: () {},
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const ProfileSectionTitle(title: "About us"),
+                              ProfileListItem(
+                                title: "Privacy policy",
+                                icon: Icons.policy_outlined,
+                                onTap: () {},
+                              ),
+                              ProfileListItem(
+                                title: "Terms and conditions",
+                                icon: Icons.gavel_rounded,
+                                onTap: () {},
+                              ),
+                              const SizedBox(height: 18),
+                              const ProfileSectionTitle(title: "Others"),
+                              ProfileListItem(
+                                title: "Share to friends",
+                                icon: Icons.share_rounded,
+                                onTap: () {},
+                              ),
+                            ],
                           ),
-                          ProfileListItem(
-                            title: "Terms and conditions",
-                            icon: Icons.gavel_rounded,
-                            onTap: () {},
-                          ),
-                          const SizedBox(height: 18),
-                          const ProfileSectionTitle(title: "Others"),
-                          ProfileListItem(
-                            title: "Share to friends",
-                            icon: Icons.share_rounded,
-                            onTap: () {},
-                          ),
+                          const ProfileDivider(),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  style: ButtonStyle(
+                                    side: WidgetStateProperty.all(
+                                      BorderSide(
+                                        color: appColors.accentSecondary,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    shape: WidgetStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(60),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0,
+                                      horizontal: 62,
+                                    ),
+                                    child: Text(
+                                      "Purchase",
+                                      style: TextStyle(
+                                        color: appColors.onPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Text(
+                                    "By Supporting with 1000Frs yearly, you're not just gaining access to exclusive features, you're investing in the future of Cameroon Hymns.",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -152,6 +195,23 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProfileDivider extends StatelessWidget {
+  const ProfileDivider({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final appColors = Theme.of(context).appColors;
+    return Padding(
+      padding: const EdgeInsets.all(28),
+      child: Divider(
+        color: appColors.onPrimary.withOpacity(0.2),
       ),
     );
   }
@@ -199,7 +259,7 @@ class ProfileListItem extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      splashColor: appColors.accent,
+      splashColor: appColors.onAccentSecondary,
       leading: Container(
         height: 28,
         width: 28,
