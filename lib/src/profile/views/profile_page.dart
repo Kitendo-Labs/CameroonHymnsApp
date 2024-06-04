@@ -1,3 +1,8 @@
+import 'package:cameroon_hymn/src/profile/views/widgets/outlined_button.dart';
+import 'package:cameroon_hymn/src/profile/views/widgets/profile_divider.dart';
+import 'package:cameroon_hymn/src/profile/views/widgets/profile_list_item.dart';
+import 'package:cameroon_hymn/src/profile/views/widgets/profile_section_title.dart';
+import 'package:cameroon_hymn/src/profile/views/widgets/purchase_section.dart';
 import 'package:cameroon_hymn/src/theme/app_theme.dart';
 import 'package:cameroon_hymn/src/utils/app_color_extention.dart';
 import 'package:flutter/material.dart';
@@ -171,8 +176,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               ? const PurchaseSection(hasPurchased: true)
                               : Align(
                                   alignment: Alignment.center,
-                                  child: OutlinedButton(
-                                      title: "Login", onPressed: () {}),
+                                  child: ProfileOutlinedButton(
+                                    title: "Login",
+                                    onPressed: () {},
+                                  ),
                                 ),
                         ],
                       ),
@@ -197,178 +204,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class PurchaseSection extends StatelessWidget {
-  const PurchaseSection({
-    super.key,
-    required this.hasPurchased,
-  });
-  final bool hasPurchased;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).appColors;
-    return Align(
-      alignment: Alignment.center,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          hasPurchased
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8.0,
-                    horizontal: 62,
-                  ),
-                  child: Text(
-                    "THANK YOU",
-                    style: TextStyle(color: appColors.accentSecondary),
-                  ),
-                )
-              : OutlinedButton(title: "Purchase", onPressed: () {}),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              hasPurchased
-                  ? "Thank you for your trust and belief in our mission. Your support is  instrumental in helping us continue to enhance and expand Cameroon Hymns  for everyone."
-                  : "By Supporting with 1000Frs yearly, you're not just gaining access to exclusive features, you're investing in the future of Cameroon Hymns.",
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OutlinedButton extends StatelessWidget {
-  const OutlinedButton({
-    super.key,
-    required this.title,
-    this.onPressed,
-  });
-  final String title;
-  final void Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).appColors;
-    return TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        side: WidgetStateProperty.all(
-          BorderSide(
-            color: appColors.accentSecondary,
-            width: 2,
-          ),
-        ),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(60),
-          ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 8.0,
-          horizontal: 62,
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-            color: appColors.onPrimary,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileDivider extends StatelessWidget {
-  const ProfileDivider({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).appColors;
-    return Padding(
-      padding: const EdgeInsets.all(28),
-      child: Divider(
-        color: appColors.onPrimary.withOpacity(0.2),
-      ),
-    );
-  }
-}
-
-class ProfileSectionTitle extends StatelessWidget {
-  const ProfileSectionTitle({
-    super.key,
-    required this.title,
-  });
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).appColors;
-    return Padding(
-      padding: const EdgeInsets.only(top: 14, left: 14, bottom: 10),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16,
-          color: appColors.accentSecondary,
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileListItem extends StatelessWidget {
-  const ProfileListItem({
-    super.key,
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
-
-  final String title;
-  final IconData icon;
-  final void Function()? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final appColors = Theme.of(context).appColors;
-    return ListTile(
-      onTap: onTap,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      splashColor: appColors.onAccentSecondary,
-      leading: Container(
-        height: 28,
-        width: 28,
-        decoration: BoxDecoration(
-          color: appColors.secondary,
-          borderRadius: BorderRadius.circular(6),
-        ),
-        padding: const EdgeInsets.all(2),
-        child: Icon(icon),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: appColors.onPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      trailing: Icon(
-        Icons.arrow_forward_ios_rounded,
-        color: appColors.onPrimary,
-        size: 18,
       ),
     );
   }
