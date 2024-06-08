@@ -21,7 +21,7 @@ final sharedPreferenceProvider = FutureProvider<SharedPreferences>.internal(
 );
 
 typedef SharedPreferenceRef = FutureProviderRef<SharedPreferences>;
-String _$appStartupHash() => r'6b0add8b2626276d283b7329170dbf3abb341728';
+String _$appStartupHash() => r'51b5cbb721419e6a603ca5090979ed15afc1db63';
 
 /// See also [appStartup].
 @ProviderFor(appStartup)
