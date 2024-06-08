@@ -19,29 +19,40 @@ class FirebaseAuthentication extends _$FirebaseAuthentication {
     return AuthenticationState.initial;
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     state = AuthenticationState.loading;
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+    try {
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    state = AuthenticationState.completed;
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      state = AuthenticationState.completed;
+    } catch (e) {
+      state = AuthenticationState.completed;
+    }
   }
 
   Future<void> signInWithApple() async {
     state = AuthenticationState.loading;
     await Future.delayed(const Duration(seconds: 4));
+    state = AuthenticationState.completed;
+  }
+
+  Future<void> signOut() async {
+    state = AuthenticationState.loading;
+    await FirebaseAuth.instance.signOut();
     state = AuthenticationState.completed;
   }
 }

@@ -114,7 +114,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   ),
                                   const SizedBox(width: 12),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await ref
+                                          .watch(firebaseAuthenticationProvider
+                                              .notifier)
+                                          .signOut();
+                                    },
                                     icon: const Icon(
                                       Icons.logout_rounded,
                                       size: 28,
@@ -149,7 +154,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   ),
                                   const SizedBox(width: 12),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      await ref
+                                          .watch(firebaseAuthenticationProvider
+                                              .notifier)
+                                          .signInWithGoogle();
+                                    },
                                     icon: const Icon(
                                       Icons.login_rounded,
                                       size: 28,
