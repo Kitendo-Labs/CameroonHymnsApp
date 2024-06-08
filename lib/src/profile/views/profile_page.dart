@@ -41,6 +41,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       }
     });
 
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       backgroundColor: appColors.primary,
       resizeToAvoidBottomInset: false,
@@ -89,23 +91,26 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                               .withOpacity(0.8),
                                         ),
                                         const SizedBox(width: 12),
-                                        const Expanded(
+                                        Expanded(
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Mangi Elijah",
+                                                user?.displayName ??
+                                                    'Not logged in',
                                                 overflow: TextOverflow.ellipsis,
                                               ),
-                                              Text(
-                                                "mangielijah@gmail.com",
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
+                                              if (user != null)
+                                                Text(
+                                                  user.email!,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
-                                              ),
                                             ],
                                           ),
                                         )
