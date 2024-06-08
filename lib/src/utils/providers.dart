@@ -50,10 +50,5 @@ Future<void> appStartup(AppStartupRef ref) async {
   await ref.watch(appInfoProvider).initialize();
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     ref.watch(isSignedIn.notifier).update((state) => user != null);
-    if (user == null) {
-      print("Not logged in");
-    } else {
-      print("Logged in");
-    }
   });
 }

@@ -5,11 +5,9 @@ import 'package:cameroon_hymn/src/profile/views/widgets/profile_list_item.dart';
 import 'package:cameroon_hymn/src/profile/views/widgets/profile_section_title.dart';
 import 'package:cameroon_hymn/src/profile/views/widgets/purchase_section.dart';
 import 'package:cameroon_hymn/src/theme/app_theme.dart';
-import 'package:cameroon_hymn/src/utils/app_color_extention.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
