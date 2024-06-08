@@ -1,3 +1,4 @@
+import 'package:cameroon_hymn/src/profile/services/firebase_service.dart';
 import 'package:cameroon_hymn/src/profile/views/widgets/outlined_button.dart';
 import 'package:cameroon_hymn/src/profile/views/widgets/profile_divider.dart';
 import 'package:cameroon_hymn/src/profile/views/widgets/profile_list_item.dart';
@@ -5,8 +6,10 @@ import 'package:cameroon_hymn/src/profile/views/widgets/profile_section_title.da
 import 'package:cameroon_hymn/src/profile/views/widgets/purchase_section.dart';
 import 'package:cameroon_hymn/src/theme/app_theme.dart';
 import 'package:cameroon_hymn/src/utils/app_color_extention.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -61,7 +64,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: hasLogin
+                      child: ref.watch(isSignedIn)
                           ? Row(
                               children: [
                                 Expanded(
@@ -187,13 +190,33 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                             ],
                           ),
                           const ProfileDivider(),
-                          hasLogin
+                          ref.watch(isSignedIn)
                               ? const PurchaseSection(hasPurchased: true)
                               : Align(
                                   alignment: Alignment.center,
                                   child: ProfileOutlinedButton(
                                     title: "Login",
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      // Trigger the authentication flow
+                                      final GoogleSignInAccount? googleUser =
+                                          await GoogleSignIn().signIn();
+
+                                      // Obtain the auth details from the request
+                                      final GoogleSignInAuthentication?
+                                          googleAuth =
+                                          await googleUser?.authentication;
+
+                                      // Create a new credential
+                                      final credential =
+                                          GoogleAuthProvider.credential(
+                                        accessToken: googleAuth?.accessToken,
+                                        idToken: googleAuth?.idToken,
+                                      );
+
+                                      // Once signed in, return the UserCredential
+                                      await FirebaseAuth.instance
+                                          .signInWithCredential(credential);
+                                    },
                                   ),
                                 ),
                         ],

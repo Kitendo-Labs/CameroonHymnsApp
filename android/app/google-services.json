@@ -12,7 +12,20 @@
           "package_name": "net.kitendo.cameroon_hymn"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "364235672730-ob6745dndj5mnk08a6sn1utvkc8ksed3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.kitendo.cameroon_hymn",
+            "certificate_hash": "998e40749507dc2ac0e95964a0727d72ded8ddca"
+          }
+        },
+        {
+          "client_id": "364235672730-2mer136f9vtn0nvu7rmj64l9mif8gr18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDYm_UcWois_YjnQnCAHuHgeKXELRf3RRE"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364235672730-2mer136f9vtn0nvu7rmj64l9mif8gr18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "364235672730-aeaanr0fpuuffn9elb2l78i7oov0cam9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cameroonHymn"
+              }
+            }
+          ]
         }
       }
     }

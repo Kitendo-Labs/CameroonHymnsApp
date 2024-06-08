@@ -1,7 +1,9 @@
 import 'package:cameroon_hymn/src/home/services/package_info.dart';
 import 'package:cameroon_hymn/src/home/services/remote_config.dart';
 import 'package:cameroon_hymn/src/hymns/models/hymns.dart';
+import 'package:cameroon_hymn/src/profile/services/firebase_service.dart';
 import 'package:cameroon_hymn/src/utils/sembast_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -46,4 +48,12 @@ Future<void> appStartup(AppStartupRef ref) async {
   await ref.watch(sembastProvider).init();
   await ref.watch(appConfigProvider).initialize();
   await ref.watch(appInfoProvider).initialize();
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    ref.watch(isSignedIn.notifier).update((state) => user != null);
+    if (user == null) {
+      print("Not logged in");
+    } else {
+      print("Logged in");
+    }
+  });
 }
