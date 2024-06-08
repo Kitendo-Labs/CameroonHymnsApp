@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -28,7 +29,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).appColors;
-    bool hasLogin = false;
+
+    ref.listen(firebaseAuthenticationProvider, (prev, next) {
+      switch (next) {
+        case AuthenticationState.completed:
+          context.loaderOverlay.hide();
+        case AuthenticationState.loading:
+          context.loaderOverlay.show();
+        case AuthenticationState.initial:
+          context.loaderOverlay.hide();
+      }
+    });
 
     return Scaffold(
       backgroundColor: appColors.primary,
@@ -51,178 +62,184 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         ),
         centerTitle: true,
       ),
-      body: SizedBox(
-        height: MediaQuery.sizeOf(context).height,
-        width: MediaQuery.sizeOf(context).width,
-        child: Stack(
-          children: [
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 18, left: 18),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: ref.watch(isSignedIn)
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.account_circle_outlined,
-                                        size: 52,
-                                        color: appColors.onPrimary
-                                            .withOpacity(0.8),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      const Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Mangi Elijah",
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              "mangielijah@gmail.com",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
+      body: LoaderOverlay(
+        child: SizedBox(
+          height: MediaQuery.sizeOf(context).height,
+          width: MediaQuery.sizeOf(context).width,
+          child: Stack(
+            children: [
+              SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 18, left: 18),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: ref.watch(isSignedIn)
+                            ? Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.account_circle_outlined,
+                                          size: 52,
+                                          color: appColors.onPrimary
+                                              .withOpacity(0.8),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        const Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Mangi Elijah",
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.logout_rounded,
-                                    size: 28,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.person_off_outlined,
-                                        size: 52,
-                                        color: appColors.onPrimary
-                                            .withOpacity(0.8),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      const Expanded(
-                                        child: Text(
-                                          "Not Logged in",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
+                                              Text(
+                                                "mangielijah@gmail.com",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
                                           ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.logout_rounded,
+                                      size: 28,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.person_off_outlined,
+                                          size: 52,
+                                          color: appColors.onPrimary
+                                              .withOpacity(0.8),
                                         ),
-                                      )
-                                    ],
+                                        const SizedBox(width: 12),
+                                        const Expanded(
+                                          child: Text(
+                                            "Not Logged in",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
+                                  const SizedBox(width: 12),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.login_rounded,
+                                      size: 28,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ),
+                      const ProfileDivider(),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 46.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const ProfileSectionTitle(title: "About us"),
+                                ProfileListItem(
+                                  title: "Privacy policy",
+                                  icon: Icons.policy_outlined,
+                                  onTap: () {
+                                    final url = Uri.parse(
+                                        "https://cameroonhymns.kitendo.net/privacy.html#");
+                                    launchUrl(
+                                      url,
+                                      mode: LaunchMode.externalApplication,
+                                    );
+                                  },
                                 ),
-                                const SizedBox(width: 12),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.login_rounded,
-                                    size: 28,
-                                  ),
+                                ProfileListItem(
+                                  title: "Terms and conditions",
+                                  icon: Icons.gavel_rounded,
+                                  onTap: () {
+                                    final url = Uri.parse(
+                                        "https://cameroonhymns.kitendo.net/terms.html#");
+                                    launchUrl(
+                                      url,
+                                      mode: LaunchMode.externalApplication,
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 18),
+                                const ProfileSectionTitle(title: "Others"),
+                                ProfileListItem(
+                                  title: "Share to friends",
+                                  icon: Icons.share_rounded,
+                                  onTap: () {},
                                 ),
                               ],
                             ),
-                    ),
-                    const ProfileDivider(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 46.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const ProfileSectionTitle(title: "About us"),
-                              ProfileListItem(
-                                title: "Privacy policy",
-                                icon: Icons.policy_outlined,
-                                onTap: () {
-                                  final url = Uri.parse(
-                                      "https://cameroonhymns.kitendo.net/privacy.html#");
-                                  launchUrl(
-                                    url,
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                },
-                              ),
-                              ProfileListItem(
-                                title: "Terms and conditions",
-                                icon: Icons.gavel_rounded,
-                                onTap: () {
-                                  final url = Uri.parse(
-                                      "https://cameroonhymns.kitendo.net/terms.html#");
-                                  launchUrl(
-                                    url,
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 18),
-                              const ProfileSectionTitle(title: "Others"),
-                              ProfileListItem(
-                                title: "Share to friends",
-                                icon: Icons.share_rounded,
-                                onTap: () {},
-                              ),
-                            ],
-                          ),
-                          const ProfileDivider(),
-                          ref.watch(isSignedIn)
-                              ? const PurchaseSection(hasPurchased: true)
-                              : Align(
-                                  alignment: Alignment.center,
-                                  child: ProfileOutlinedButton(
-                                    title: "Login",
-                                    onPressed: () async {
-                                      
-                                    },
+                            const ProfileDivider(),
+                            ref.watch(isSignedIn)
+                                ? const PurchaseSection(hasPurchased: true)
+                                : Align(
+                                    alignment: Alignment.center,
+                                    child: ProfileOutlinedButton(
+                                      title: "Login",
+                                      onPressed: () async {
+                                        await ref
+                                            .watch(
+                                                firebaseAuthenticationProvider
+                                                    .notifier)
+                                            .signInWithGoogle();
+                                      },
+                                    ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 140,
-              left: MediaQuery.sizeOf(context).width - 60,
-              child: Container(
-                height: MediaQuery.sizeOf(context).height - 140,
-                width: 60,
-                decoration: BoxDecoration(
-                  color: appColors.secondary,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: 140,
+                left: MediaQuery.sizeOf(context).width - 60,
+                child: Container(
+                  height: MediaQuery.sizeOf(context).height - 140,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: appColors.secondary,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
